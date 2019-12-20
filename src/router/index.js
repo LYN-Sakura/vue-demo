@@ -1,10 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '../components/login.vue'
+// 登录页面
+import Login from '../components/Login.vue'
+// 主页
+import Home from '../components/Home.vue'
+// 欢迎页面
+import Welcome from '../components/Welcome.vue'
+// 用户页面
+import Users from '../components/Users.vue'
+// 权限管理
+import Roles from '../components/Roles.vue'
+
+// 导入面包屑导航
+import Mbx from '../components/Mbx.vue'
+// 将面包屑导航注册为全局组件
+Vue.component('Mbx', Mbx)
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [{
     path: '/',
     redirect: '/login'
@@ -12,6 +26,38 @@ export default new Router({
   {
     path: '/login',
     component: Login
+  },
+  {
+    path: '/home',
+    component: Home,
+    redirect: '/welcome',
+    children: [{
+      path: '/welcome',
+      component: Welcome
+    },
+    {
+      path: '/users',
+      component: Users
+    },
+    {
+      path: '/roles',
+      component: Roles
+    }
+    ]
   }
   ]
 })
+// 挂载路由导航守卫
+router.beforeEach((to, from, next) => {
+  // to将要访问的路径
+  // from从哪个路径跳转过来
+  // next()不加参数代表放行,加参数代表强制跳转
+
+  if (to.path === '/login') return next()
+  // 获取token
+  const tokenStr = window.sessionStorage.getItem('token')
+  if (!tokenStr) return next('/login')
+  next()
+})
+
+export default router

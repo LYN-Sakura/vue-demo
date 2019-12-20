@@ -19,8 +19,8 @@ export default {
   data () {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '123456'
       },
       loginRules: {
         username: [{ required: true, message: '请输入账号', trigger: 'blur' }, { min: 3, max: 10, message: '请输入长度为3到10的字符', trigger: 'blur' }],
@@ -36,8 +36,10 @@ export default {
       this.$refs.loginRef.validate(async valid => {
         if (!valid) return false
         let { data: res } = await this.$http.post('login', this.loginForm)
-        if (res.meta.status !== 200) return alert('登陆失败')
-        console.log('登陆成功')
+        if (res.meta.status !== 200) return this.$message.error('登陆失败！')
+        this.$message.success('登陆成功')
+        window.sessionStorage.setItem('token', res.data.token)
+        this.$router.push('/home')
       })
     }
   }
