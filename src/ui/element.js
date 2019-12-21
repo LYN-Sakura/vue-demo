@@ -16,7 +16,14 @@ import {
   BreadcrumbItem,
   Card,
   Select,
-  Option
+  Option,
+  Row,
+  Col,
+  Table,
+  TableColumn,
+  Switch,
+  Tooltip,
+  Pagination
 } from 'element-ui'
 
 Vue.use(Form)
@@ -35,5 +42,12 @@ Vue.use(MenuItem)
 Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
 Vue.use(Card)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Table)
+Vue.use(TableColumn)
+Vue.use(Switch)
+Vue.use(Tooltip)
+Vue.use(Pagination)
 // 挂载弹窗组件
 Vue.prototype.$message = Message
