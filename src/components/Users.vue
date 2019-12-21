@@ -4,7 +4,7 @@
     <el-card class="box-c ard">
       <div style="margin-top: 15px;">
         <el-input placeholder="请输入内容" class="input-with-select">
-          <el-button  icon="el-icon-search"></el-button>
+         <el-button slot="append" icon="el-icon-search"></el-button>
         </el-input>
       </div>
     </el-card>
