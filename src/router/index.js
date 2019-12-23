@@ -9,7 +9,9 @@ import Welcome from '../components/Welcome.vue'
 // 用户页面
 import Users from '../components/Users.vue'
 // 权限管理
-import Roles from '../components/Roles.vue'
+import Roles from '../components/power/Roles.vue'
+// 权限列表
+import Rights from '../components/power/Rights.vue'
 
 // 导入面包屑导航
 import Mbx from '../components/Mbx.vue'
@@ -42,6 +44,10 @@ const router = new Router({
     {
       path: '/roles',
       component: Roles
+    },
+    {
+      path: '/rights',
+      component: Rights
     }
     ]
   }
