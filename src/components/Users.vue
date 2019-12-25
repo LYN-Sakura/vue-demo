@@ -29,7 +29,7 @@
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row.id)"></el-button>
             <!-- 权限 -->
             <el-tooltip class="item" effect="dark" content="分配角色" :enterable="false" placement="top">
-              <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+              <el-button type="warning" icon="el-icon-setting" @click="setRole(scope.row)" size="mini"></el-button>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -75,6 +75,26 @@
         <el-button type="primary" @click="updateUsers">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 分配角色 -->
+    <el-dialog @close="setRoleDialog" title="分配角色" :visible.sync="setRoleDialogVisible" width="30%">
+      <!-- 主题部分 -->
+      <div>
+        <p>当前的用户:{{ userInfo.username }}</p>
+        <p>当前的角色:{{ userInfo.role_name }}</p>
+        <p>
+          分配新角色
+          <el-select ref="setRoleRef" v-model="selectedRoleId" placeholder="请选择">
+            <el-option v-for="item in rolesList" :key="item.id" :label="item.roleName" :value="item.id"></el-option>
+          </el-select>
+        </p>
+      </div>
+      <!-- 底部按钮 -->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="setRoleDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="saveRoleInfo">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -111,6 +131,7 @@ export default {
       total: 0,
       addDialogvisible: false,
       changeDialogVisible: false,
+      setRoleDialogVisible: false,
       addForm: {
         username: '',
         password: '',
@@ -132,7 +153,12 @@ export default {
         username: '',
         email: '',
         mobile: ''
-      }
+      },
+      userInfo: {},
+      // 所有权限的数据列表
+      rolesList: [],
+      // 已选定的角色id
+      selectedRoleId: ''
     }
   },
   created() {
@@ -141,7 +167,7 @@ export default {
   methods: {
     // 获取用户信息
     async getUserList() {
-      let { data: res } = await this.$http.get('users', {
+      const { data: res } = await this.$http.get('users', {
         params: this.queryInfo
       })
       if (res.meta.status !== 200) return this.$message.error('用户列表获取失败')
@@ -160,7 +186,7 @@ export default {
     },
     // 监听用户状态改变
     async userStatusChange(val) {
-      let { data: res } = await this.$http.put('users/' + val.id + '/state/' + val.mg_state)
+      const { data: res } = await this.$http.put('users/' + val.id + '/state/' + val.mg_state)
       if (res.meta.status !== 200) {
         this.$message.error(res.meta.msg)
         return this.getUserList()
@@ -176,7 +202,7 @@ export default {
         type: 'warning'
       }).catch(err => err)
       if (select !== 'confirm') return this.$message.info('已取消删除')
-      let { data: res } = await this.$http.delete('users/' + id)
+      const { data: res } = await this.$http.delete('users/' + id)
       if (res.meta.status !== 200) return this.$message.error('删除失败')
       this.$message.success(res.meta.msg)
       // 删除当前最后一个用户数据时出现空白的优化
@@ -196,7 +222,7 @@ export default {
     addUsers() {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return this.$message.error('请认真填写！')
-        let { data: res } = await this.$http.post('/users', this.addForm)
+        const { data: res } = await this.$http.post('/users', this.addForm)
         if (res.meta.status !== 201) return this.$message.error(res.meta.msg)
         this.getUserList()
         this.$message.success(res.meta.msg)
@@ -205,7 +231,7 @@ export default {
     },
     // 修改用户
     async showUsers(id) {
-      let { data: res } = await this.$http.get('users/' + id)
+      const { data: res } = await this.$http.get('users/' + id)
       if (res.meta.status !== 200) return this.$message.error('查询数据失败')
       this.editForm.username = res.data.username
       this.editForm.email = res.data.email
@@ -217,7 +243,7 @@ export default {
     updateUsers() {
       this.$refs.editFormRef.validate(async valid => {
         if (!valid) return this.$message.error('验证未通过')
-        let { data: res } = await this.$http.put('users/' + this.editForm.id, this.editForm)
+        const { data: res } = await this.$http.put('users/' + this.editForm.id, this.editForm)
         if (res.meta.status !== 200) return this.$message.error('修改失败，再来一次')
         this.getUserList()
         this.changeDialogVisible = false
@@ -227,6 +253,30 @@ export default {
     // close事件关闭
     closeeditForm() {
       this.$refs.editFormRef.resetFields()
+      this.$message.info('')
+    },
+    async setRole(userInfo) {
+      this.userInfo = userInfo
+      const { data: res } = await this.$http.get('roles')
+      if (res.meta.status !== 200) return this.$message.error('获取权限列表失败')
+      this.rolesList = res.data
+      this.setRoleDialogVisible = true
+    },
+    // 保存分配的角色
+    async saveRoleInfo() {
+      if (!this.selectedRoleId) return this.$message.error('请选择要分配角色')
+      const { data: res } = await this.$http.put(`users/${this.userInfo.id}/role`, {
+        rid: this.selectedRoleId
+      })
+      if (res.meta.status !== 200) return this.$message.error(res.meta.msg)
+      this.$message.success(res.meta.msg)
+      this.setRoleDialogVisible = false
+      this.getUserList()
+    },
+    // 监听分配角色对话框关闭
+    setRoleDialog() {
+      this.userInfo = {}
+      this.selectedRoleId = ''
     }
   },
   watch: {
