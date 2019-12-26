@@ -9,6 +9,8 @@ import './ui/element.js'
 import './assets/iconfont/iconfont.css'
 // 导入全局样式表
 import './assets/css/global.css'
+// 获取树形表格
+import TreeTable from 'vue-table-with-tree-grid'
 // 设置请求根目录http://127.0.0.1:8888/api/private/v1/
 axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
 axios.interceptors.request.use(config => {
@@ -16,7 +18,7 @@ axios.interceptors.request.use(config => {
   return config
 })
 Vue.prototype.$http = axios
-
+Vue.component('zk-table', TreeTable)
 Vue.config.productionTip = false
 
 new Vue({

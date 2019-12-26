@@ -21,3 +21,7 @@ body,
 .el-table {
 	margin: 15px auto;
 }
+
+.el-cascader-menu {
+	height: 240px;
+}
