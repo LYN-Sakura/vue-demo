@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 // 导入axios
 import axios from 'axios'
-// 导入  按需引入element-ui的js文件
+// 导入  按需引入elem,.ent-ui的js文件
 import './ui/element.js'
 // 导入字体图标库
 import './assets/iconfont/iconfont.css'
