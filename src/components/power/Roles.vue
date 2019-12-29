@@ -6,7 +6,7 @@
         <el-col><el-button type="primary">添加角色</el-button></el-col>
       </el-row>
       <!-- 角色列表 -->
-      <el-table :data="roleList" border stripe>
+      <el-table :data="roleList" border stripe row-key="id" :tree-props="{ children: null, hasChildren: null }">
         <el-table-column type="expand">
           <template slot-scope="scope">
             <el-row :class="['bdbottom', i1 == 0 ? 'bdtop' : '', 'df']" v-for="(val1, i1) in scope.row.children" :key="val1.id">

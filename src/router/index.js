@@ -16,6 +16,10 @@ import Rights from '../components/power/Rights.vue'
 import Cate from '../components/goods/Cate.vue'
 // 分类参数
 import Params from '../components/goods/Params.vue'
+// 商品列表
+import List from '../components/goods/List.vue'
+// 添加商品
+import Add from '../components/goods/Add.vue'
 
 // 导入面包屑导航
 import Mbx from '../components/Mbx.vue'
@@ -60,6 +64,14 @@ const router = new Router({
     {
       path: '/params',
       component: Params
+    },
+    {
+      path: '/goods',
+      component: List
+    },
+    {
+      path: '/goods/add',
+      component: Add
     }
     ]
   }

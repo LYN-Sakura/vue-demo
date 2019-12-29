@@ -31,7 +31,10 @@ import {
   Cascader,
   Tabs,
   TabPane,
-  Alert
+  Alert,
+  Steps,
+  Step,
+  Upload
 } from 'element-ui'
 
 Vue.use(Form)
@@ -64,6 +67,10 @@ Vue.use(Cascader)
 Vue.use(Tabs)
 Vue.use(TabPane)
 Vue.use(Alert)
+Vue.use(Steps)
+Vue.use(Step)
+Vue.use(Upload)
+
 // 挂载弹窗组件
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
