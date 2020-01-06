@@ -85,7 +85,6 @@ export default {
   },
   created() {
     this.getMenuList()
-    console.log(1)
     // 取出保存的path
     this.activePath = window.sessionStorage.getItem('activePath')
   }

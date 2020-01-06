@@ -85,7 +85,6 @@ export default {
       }).catch(err => err)
       if (cf !== 'confirm') return this.$message.info('已取消操作')
       let { data: res } = await this.$http.delete(`roles/${role.id}/rights/${rights}`)
-      // console.log(res)
       if (res.meta.status !== 200) {
         return this.$message.error('删除失败')
       }

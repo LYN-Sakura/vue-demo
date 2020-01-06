@@ -134,7 +134,6 @@ export default {
       res.data.forEach(item => {
         item.attr_vals = item.attr_vals.split(' ')
       })
-      console.log(res.data)
     },
     // 增加分类参数的函数
     showAddParams() {

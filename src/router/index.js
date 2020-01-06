@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 // 登录页面
 import Login from '../components/Login.vue'
+
+// const Login = ()=> import(/* webpackChunkName:''*/)
 // 主页
 import Home from '../components/Home.vue'
 // 欢迎页面

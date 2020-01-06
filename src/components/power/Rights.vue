@@ -8,7 +8,6 @@
         <el-table-column prop="path" label="路径"></el-table-column>
         <el-table-column prop="level" label="权限等级">
           <template slot-scope="scope">
-            {{ scope.row.level }}
             <el-tag v-if="scope.row.level === '0'">一级</el-tag>
             <el-tag v-else-if="scope.row.level === '1'" type="success">二级</el-tag>
             <el-tag v-else type="warning">三级</el-tag>

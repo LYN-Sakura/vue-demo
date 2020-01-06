@@ -17,8 +17,8 @@
           <el-tag size="mini" v-else-if="scope.row.cat_level === 1" type="success">二级</el-tag>
           <el-tag size="mini" v-else type="warning">三级</el-tag>
         </template>
-        <template slot="opt">
-          <el-button size="mini" type="primary" icon="el-icon-edit">编辑</el-button>
+        <template slot="opt" slot-scope="scope">
+          <el-button size="mini" type="primary" icon="el-icon-edit" @click="cclick(scope.row)">编辑</el-button>
           <el-button size="mini" type="danger" icon="el-icon-delete">删除</el-button>
         </template>
       </zk-table>
@@ -140,9 +140,9 @@ export default {
       this.addDialogVisible = true
     },
     // 选择项发生变化触发
-    changeOptions() {
-      console.log(this.selectionOptions)
-    }
+    changeOptions() {},
+    // 消除报错
+    cclick(row) {}
   },
   created() {
     // 获取商品分类数据
